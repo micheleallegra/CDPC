@@ -1,2 +1,0 @@
-* include output density nifti
-* include .mat file with mean/high-density signal of the clusters
