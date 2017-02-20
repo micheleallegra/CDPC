@@ -115,16 +115,27 @@ end % endif
    fprintf(scriptfile,'%%Clustering ');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'[data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_files_to_cluster);\n');
+   fprintf(scriptfile,'overlap=zeros(size(data_coord,1),2);\n');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile, 'for vol=vol_begin:vol_end\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_generate_intensity_input_data(The_files_to_cluster,brind,vol);\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_FT_intensity(data_intensity,[0]);\n');
    fprintf(scriptfile,'\t[density,dist_to_higher,i3_closest]=depict_generate_decision_graph(data_coord,scal,data_intensity,[NCUT,SPATIALCUT]);\n');
    fprintf(scriptfile,'\t[final_assignation]=depict_compute_clusters(data_coord,scal,density,dist_to_higher,i3_closest,[RHO,NCLUST_MAX,CONNECTEDCUT]);\n');
+   fprintf(scriptfile,'\n');
+   fprintf(scriptfile,'overlap(:,1)=overlap(:,1)+(density > 0);\n');
+   fprintf(scriptfile,'overlap(:,2)=overlap(:,2)+density;');
+   fprintf(scriptfile,'\n');
    fprintf(scriptfile,'\tdepict_generate_output_maps(outfname,The_files_to_cluster,The_mask,final_assignation,density,vol);\n');
    fprintf(scriptfile,'\tdepict_generate_output_timecourse_images(outfname,The_files_to_cluster,The_mask,data_intensity,final_assignation,density,vol,winlen);\n');
    fprintf(scriptfile,'end\n');
-
+   fprintf(scriptfile,'\n');
+   fprintf(scriptfile,'overlap(:,1)=overlap(:,1)/(vol_end-vol_begin+1);');
+   fprintf(scriptfile,'overlap(:,2)=overlap(:,2)/(vol_end-vol_begin+1);');
+   fprintf(scriptfile,'\n');
+   fprintf(scritpfile,'outfname_overlap = [outfname 'overlap_']');
+   fprintf(scriptfile,'\n');
+   fprintf(scriptfile,'depict_generate_overlap_maps(outfname_overlap,The_files_to_cluster,The_mask,overlap,vol_begin, vol_end);');
    fclose(scriptfile);
 
  end

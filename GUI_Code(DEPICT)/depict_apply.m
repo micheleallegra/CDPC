@@ -66,6 +66,8 @@ global NCLUST_MAX
 
    [data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_files_to_cluster);
 
+   overlap=zeros(2,size(data_coord,2));
+
    for vol=vol_begin:vol_end
 
       set(txt1,'String',strcat('Computing clusters for window : ',' ', num2str(vol)',' - ',num2str(vol+winlen-1)) );
@@ -112,11 +114,22 @@ global NCLUST_MAX
  
       [final_assignation]=depict_compute_clusters(data_coord,scal,density,dist_to_higher,i3_closest,[RHO,NCLUST_MAX,CONNECTEDCUT]);
  
+      overlap(1,:)=overlap(1,:)+(density > 0);
+      overlap(2,:)=overlap(2,:)+density/max(density)*100;
+
+
       depict_generate_output_maps(outfname,The_files_to_cluster,The_mask,final_assignation,density,vol)
 
       depict_generate_output_timecourse_images(outfname,The_files_to_cluster,The_mask,data_intensity,final_assignation,density,vol,winlen)
 
    end
+
+   overlap(1,:)=overlap(1,:)/(vol_end-vol_begin+1);
+   overlap(2,:)=overlap(2,:)/(vol_end-vol_begin+1);
+
+   outfname_overlap = [outfname '_overlap_'];
+
+   depict_generate_overlap_maps(outfname_overlap,The_files_to_cluster,The_mask,overlap,vol_begin, vol_end);
 
    txt6 = uicontrol(fgApply,'Style','text','Units','normalized','Position',[0.2 0.2 0.6 0.05],'String','Clustering successfully completed.');
 
