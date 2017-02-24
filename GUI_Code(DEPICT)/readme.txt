@@ -1,7 +1,7 @@
 INSTALLATION INSTRUCTIONS
 
- * go to your local directory where SPM12 is installed: PATH/spm12/ 
- * go the the subdirectory "toolbox":  PATH/spm12/toolbox/
+ * go to the local directory where SPM12 is installed: PATH/spm12/
+ * go to the the subdirectory "toolbox":  PATH/spm12/toolbox/
  * extract the files there
  * go to the newly created Depict directory: PATH/spm12/toolbox/Depict/
  * execute compile.sh (compiles the c++ subroutines)
