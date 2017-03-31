@@ -1,5 +1,4 @@
-cpp
-        /* 
+/* 
 C++ function to perform frequency renormalization on brain imaging data
 
 Call in MATLAB as:
