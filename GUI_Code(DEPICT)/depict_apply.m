@@ -28,8 +28,11 @@ global NCLUST_MAX
 
    [path, name, ext] = fileparts(The_files_to_cluster(1).fname);
    outfname=[path '/depict_' name];
+   
+   %callb=['outfname=get(script_name_ui,''string'')'];
 
-   script_name_ui=uicontrol('Style','edit','string',outfname,'Units','normalized','Position',[0.05 0.85 0.7 0.05]);
+   script_name_ui=uicontrol('Style','edit','string',outfname,'Units','normalized','Position',[0.05 0.85 0.7 0.05]);      % 'Callback' %@(script_name_ui,outfname)txtcallb(script_name_ui,outfname));
+   
    txt12 = uicontrol(fgApply,'Style','text','Units','normalized','Position',[0.75 0.855 0.2 0.03],'String',strcat('_xx_yy', '_zz', '.nii'),'HorizontalAlignment','Left');
 
    okbutton1 = uicontrol(fgApply,'Units','Normalized','Position',[.2,.7,.3,.05],'String','Start clustering','Callback',@okbuttonaction);
@@ -42,11 +45,16 @@ global NCLUST_MAX
  
    busy=0;
 
+   outfname
+
  end  % endif
 
- function okbuttonaction(varargin)
+ %function txtcallb(UI,S)    S=get(UI,'String');  end
 
+ function okbuttonaction(varargin)
    uiresume(gcf);
+
+   outfname=get(script_name_ui,'String')	
 
    delete(okbutton1);
    delete(cancelbutton1);
@@ -117,6 +125,7 @@ global NCLUST_MAX
       overlap(1,:)=overlap(1,:)+(density > 0);
       overlap(2,:)=overlap(2,:)+density/max(density)*100;
 
+      outfname
 
       depict_generate_output_maps(outfname,The_files_to_cluster,The_mask,final_assignation,density,vol)
 
