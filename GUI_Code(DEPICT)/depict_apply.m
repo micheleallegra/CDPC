@@ -76,7 +76,7 @@ global NCLUST_MAX
 
    overlap=zeros(2,size(data_coord,2));
 
-   for vol=vol_begin:(vol_end-wlen+1)
+   for vol=vol_begin:(vol_end-winlen+1)
 
       set(txt1,'String',strcat('Computing clusters for window : ',' ', num2str(vol)',' - ',num2str(vol+winlen-1)) );
  

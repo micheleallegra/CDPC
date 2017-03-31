@@ -20,6 +20,9 @@ if(isempty(The_files_to_cluster))
   herror1 = errordlg(strerr,'error1');
 else
 
+vol_begin=1;
+vol_end=size(The_files_to_cluster,1);
+winlen=12;
 
 N_win_min=6;
 
