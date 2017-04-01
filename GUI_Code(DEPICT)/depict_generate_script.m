@@ -23,9 +23,9 @@ else
 
  txt2 = uicontrol(fgScript,'Style','text','Units','normalized','Position',[0.05 0.9 0.8 0.05],'String','Script name');
 
- outfname=[pwd '/' 'depict_script.m'];
+ scriptname=[pwd '/' 'depict_script.m'];
 
- script_name_ui=uicontrol('Style','edit','string',outfname,'Units','normalized','Position',[0.05 0.85 0.8 0.05]);
+ script_name_ui=uicontrol('Style','edit','string',scriptname,'Units','normalized','Position',[0.05 0.85 0.8 0.05]);
 
  okbutton1 = uicontrol(fgScript,'Units','Normalized','Position',[.2,.7,.3,.05],'String','Generate script','Callback',@okbuttonaction);
 
@@ -117,7 +117,7 @@ end % endif
    fprintf(scriptfile,'[data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_files_to_cluster);\n');
    fprintf(scriptfile,'overlap=zeros(size(data_coord,1),2);\n');
    fprintf(scriptfile,'\n');
-   fprintf(scriptfile, 'for vol=vol_begin:vol_end\n');
+   fprintf(scriptfile, 'for vol=vol_begin:(vol_end-winlen+1)\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_generate_intensity_input_data(The_files_to_cluster,brind,vol);\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_FT_intensity(data_intensity,[0]);\n');
    fprintf(scriptfile,'\t[density,dist_to_higher,i3_closest]=depict_generate_decision_graph(data_coord,scal,data_intensity,[NCUT,SPATIALCUT]);\n');

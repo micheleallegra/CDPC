@@ -45,7 +45,7 @@ global NCLUST_MAX
  
    busy=0;
 
-   outfname
+   %outfname
 
  end  % endif
 
@@ -54,7 +54,7 @@ global NCLUST_MAX
  function okbuttonaction(varargin)
    uiresume(gcf);
 
-   outfname=get(script_name_ui,'String')	
+   outfname=get(script_name_ui,'String');
 
    delete(okbutton1);
    delete(cancelbutton1);
