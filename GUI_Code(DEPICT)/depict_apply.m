@@ -14,6 +14,8 @@ global SPATIALCUT
 global RHO
 global NCLUST_MAX
 
+ if(vol_end==1) vol_end = size(The_files_to_cluster,1); end
+
  if(isempty(The_files_to_cluster)) 
    strerr=strcat('Please select input files before');
    herror1 = errordlg(strerr,'error1');
@@ -45,8 +47,6 @@ global NCLUST_MAX
  
    busy=0;
 
-   %outfname
-
  end  % endif
 
  %function txtcallb(UI,S)    S=get(UI,'String');  end
@@ -54,7 +54,7 @@ global NCLUST_MAX
  function okbuttonaction(varargin)
    uiresume(gcf);
 
-   outfname=get(script_name_ui,'String');
+   outfname=get(script_name_ui,'String');	
 
    delete(okbutton1);
    delete(cancelbutton1);
@@ -124,8 +124,6 @@ global NCLUST_MAX
  
       overlap(1,:)=overlap(1,:)+(density > 0);
       overlap(2,:)=overlap(2,:)+density/max(density)*100;
-
-      outfname
 
       depict_generate_output_maps(outfname,The_files_to_cluster,The_mask,final_assignation,density,vol)
 

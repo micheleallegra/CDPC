@@ -23,9 +23,9 @@ else
 
  txt2 = uicontrol(fgScript,'Style','text','Units','normalized','Position',[0.05 0.9 0.8 0.05],'String','Script name');
 
- scriptname=[pwd '/' 'depict_script.m'];
+ outfname=[pwd '/' 'depict_script.m'];
 
- script_name_ui=uicontrol('Style','edit','string',scriptname,'Units','normalized','Position',[0.05 0.85 0.8 0.05]);
+ script_name_ui=uicontrol('Style','edit','string',outfname,'Units','normalized','Position',[0.05 0.85 0.8 0.05]);
 
  okbutton1 = uicontrol(fgScript,'Units','Normalized','Position',[.2,.7,.3,.05],'String','Generate script','Callback',@okbuttonaction);
 
@@ -49,8 +49,9 @@ end % endif
 
    delete(okbutton1);
 
+
    filenames=[];
-   if(strcmp(The_files_to_cluster(1).descrip, '4D image')==1)
+   if(strcmp(The_files_to_cluster(1).fname,  The_files_to_cluster(2).fname)==1)
       filenames=The_files_to_cluster(1).fname;
    else
       for ii=1:size(The_files_to_cluster,1)
@@ -72,8 +73,8 @@ end % endif
    fprintf(scriptfile,'%%update MATLAB path\n'); 
    spmdir=pwd;
    fprintf(scriptfile,'addpath(''%s'');\n',spmdir); 
-   spmdir=spmdir(1:end-15);
-   fprintf(scriptfile,'addpath(''%s'');\n',spmdir); 
+   %spmdir=spmdir(1:end-15);
+   %fprintf(scriptfile,'addpath(''%s'');\n',spmdir); 
    fprintf(scriptfile,'\n'); 
    fprintf(scriptfile,'%%global variables\n'); 
    fprintf(scriptfile,'global The_files_to_cluster\n');
@@ -113,9 +114,10 @@ end % endif
    fprintf(scriptfile,'outfname=[path ''/depict_'' name];\n');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'%%Clustering ');
+   fprintf(scriptfile,'\nif(vol_end==1) vol_end = size(The_files_to_cluster,1); end\n');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'[data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_files_to_cluster);\n');
-   fprintf(scriptfile,'overlap=zeros(size(data_coord,1),2);\n');
+   fprintf(scriptfile,'overlap=zeros(2,size(data_coord,2));\n');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile, 'for vol=vol_begin:(vol_end-winlen+1)\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_generate_intensity_input_data(The_files_to_cluster,brind,vol);\n');
@@ -123,17 +125,17 @@ end % endif
    fprintf(scriptfile,'\t[density,dist_to_higher,i3_closest]=depict_generate_decision_graph(data_coord,scal,data_intensity,[NCUT,SPATIALCUT]);\n');
    fprintf(scriptfile,'\t[final_assignation]=depict_compute_clusters(data_coord,scal,density,dist_to_higher,i3_closest,[RHO,NCLUST_MAX,CONNECTEDCUT]);\n');
    fprintf(scriptfile,'\n');
-   fprintf(scriptfile,'overlap(:,1)=overlap(:,1)+(density > 0);\n');
-   fprintf(scriptfile,'overlap(:,2)=overlap(:,2)+density;');
+   fprintf(scriptfile,'overlap(1,:)=overlap(1,:)+(density > 0);\n');
+   fprintf(scriptfile,'overlap(2,:)=overlap(2,:)+density/max(density)*100;');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'\tdepict_generate_output_maps(outfname,The_files_to_cluster,The_mask,final_assignation,density,vol);\n');
    fprintf(scriptfile,'\tdepict_generate_output_timecourse_images(outfname,The_files_to_cluster,The_mask,data_intensity,final_assignation,density,vol,winlen);\n');
    fprintf(scriptfile,'end\n');
    fprintf(scriptfile,'\n');
-   fprintf(scriptfile,'overlap(:,1)=overlap(:,1)/(vol_end-vol_begin+1);');
-   fprintf(scriptfile,'overlap(:,2)=overlap(:,2)/(vol_end-vol_begin+1);');
+   fprintf(scriptfile,'overlap(1,:)=overlap(1,:)/(vol_end-vol_begin+1);');
+   fprintf(scriptfile,'overlap(2,:)=overlap(2,:)/(vol_end-vol_begin+1);');
    fprintf(scriptfile,'\n');
-   fprintf(scritpfile,'outfname_overlap = [outfname 'overlap_']');
+   fprintf(scriptfile,'outfname_overlap =  [outfname ''_overlap_''];');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'depict_generate_overlap_maps(outfname_overlap,The_files_to_cluster,The_mask,overlap,vol_begin, vol_end);');
    fclose(scriptfile);

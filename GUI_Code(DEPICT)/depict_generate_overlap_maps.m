@@ -1,4 +1,4 @@
-function depict_generate_overlap_maps(outfname,The_files_to_cluster,The_mask,overlap,vol_begin, vol_end)
+function depict_generate_overlap_maps(outfname_overlap,The_files_to_cluster,The_mask,overlap,vol_begin, vol_end)
 
 global winlen
 
@@ -34,7 +34,7 @@ global winlen
 
    for i=1:2
 	    output(i)=The_files_to_cluster(1);
-       	    outfname1=[outfname  num2str(i) '.nii'];
+       	    outfname1=[outfname_overlap  num2str(i) 'tmp.nii'];
             output(i).fname = outfname1;
             Image = spm_create_vol(output(i));
             Image=spm_write_vol(output(i), out_data(:,:,:,i));
@@ -43,24 +43,24 @@ global winlen
     clear matlabbatch;
 
 
-    [path, name, ext] = fileparts(outfname);
-    name1=[name  '.*.nii$'];
-    temp = cellstr(spm_select('FPList', path, name1))
+    [path, name, ext] = fileparts(outfname_overlap);
+    name1=[name  '.*.tmp.nii$'];
+    temp = cellstr(spm_select('FPList', path, name1));
 
     matlabbatch{1}.spm.util.cat.vols = temp;
-    matlabbatch{1}.spm.util.cat.name = [outfname 'map.nii'];
+    matlabbatch{1}.spm.util.cat.name = [outfname_overlap 'map.nii'];
     matlabbatch{1}.spm.util.cat.dtype = 0;
     spm_jobman('initcfg');
     spm_jobman('run',matlabbatch);
 
-    outfname1=[outfname   num2str(1)  '*'];
+    outfname1=[outfname_overlap   num2str(1)  '*'];
     delete(outfname1);
 
-    outfname1=[outfname   num2str(2)  '*'];
+    outfname1=[outfname_overlap   num2str(2)  '*'];
     delete(outfname1);
 
 
-    outfname1=[outfname  '*.mat'];
+    outfname1=[outfname_overlap  '*map.mat'];
     delete(outfname1);
 
 
