@@ -4,6 +4,15 @@ global st
 global defaults
 global The_mask
 global lstselmaskui
+global use_mask
+
+if(use_mask==0)
+     strerr=strcat('If you wish to use a mask, please select the ''use mask'' option');
+     herrormask = errordlg(strerr,'errormask');
+     
+  
+else
+
 
   ctrl=0;
 
@@ -80,6 +89,8 @@ global lstselmaskui
   set(lstselmaskui,'string',maskname);
   set(lstselmaskui,'Value',1);
   %set(lstselmaskui,'Value',[1:size(maskname,1)]);
+
+end %endif
 
 
 end % end function

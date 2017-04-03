@@ -6,6 +6,10 @@ global The_files_to_cluster
 global The_mask
 global lstselclusterui
 global lstselmaskui
+global use_mask
+
+
+use_mask=1;
 
 fgFiles = depict_figure('CreateWin','SelectedFiles','File selection');
 
@@ -25,6 +29,16 @@ end
 
 selfunctional=uicontrol(fgFiles,'Style','PushButton','Units','normalized','Position',[.05 .90 .9 .055],'Callback','depict_select_input_files;',...
     'String','Select/Change functional images to cluster','FontSize',spm('FontSizes',12));
+
+ 
+
+nomask = uicontrol(fgFiles,'Style','checkbox','String','Use mask','Units','normalized','Position',[0.05,0.25,0.2,0.05],'Value',use_mask,'callback',@(S,E)checkbox_Callback);
+
+function checkbox_Callback
+  use_mask=get(nomask,'Value');
+end 
+
+%use_mask=get(nomask,'Value');
 
 
 if(~isempty(The_mask))

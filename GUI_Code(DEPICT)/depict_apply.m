@@ -2,6 +2,7 @@ function depict_apply(varargin)
 
 global The_files_to_cluster
 global The_mask
+global use_mask
 
 global busy
 global CONNECTEDCUT

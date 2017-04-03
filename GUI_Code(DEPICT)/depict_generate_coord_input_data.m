@@ -11,10 +11,11 @@ function [data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_f
    brain=permute(brain,[3 2 1]);
  else
    brain = spm_read_vols(The_files_to_cluster(1));
-   brain = permute(image1,[2 1 3]);
-   brain = permute(image1,[3 2 1]);
+   brain = permute(brain,[2 1 3]);
+   brain = permute(brain,[3 2 1]);
 
-   brind=find(image1);
+   brind=find(brain > 100);
+   brain(brain <= 100)=0;
 
    brain=permute(brain,[3 2 1]);
  end
@@ -32,7 +33,6 @@ function [data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_f
  scal(3)=sqrt(MM(3,1:3)*MM(3,1:3)');
 
  count=0;
-
 
  for i=1:dim(1)
    for j=1:dim(2)

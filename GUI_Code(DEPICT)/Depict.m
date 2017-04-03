@@ -2,6 +2,7 @@ function Depict(varargin)
 
 global The_files_to_cluster
 global The_mask
+global use_mask
 
 global CONNECTEDCUT
 global interactive
@@ -14,6 +15,7 @@ global RHO
 global NCLUST_MAX
 
 global busy
+
 
 CONNECTEDCUT=0;
 interactive=0;

@@ -13,6 +13,7 @@ global NCUT
 global SPATIALCUT
 global RHO
 global NCLUST_MAX
+global use_mask
 
 if(isempty(The_files_to_cluster)) 
  strerr=strcat('Please select input files before');
@@ -96,8 +97,12 @@ end % endif
    end
    fprintf(scriptfile,'\n'); 
    fprintf(scriptfile,'%% Brain mask \n'); 
-   [direc,name,ext]=fileparts(maskname);
-   fprintf(scriptfile,'The_mask=spm_vol(spm_select(''FPlist'',''%s'', ''^%s%s$''));\n', direc,name,ext); 
+   if(isempty(The_mask))
+     fprintf(scriptfile,'The_mask=[];\n');
+   else
+     [direc,name,ext]=fileparts(maskname);
+      fprintf(scriptfile,'The_mask=spm_vol(spm_select(''FPlist'',''%s'', ''^%s%s$''));\n', direc,name,ext); 
+   end
    fprintf(scriptfile,'\n'); 
    fprintf(scriptfile,'%%Clustering parameters\n'); 
    fprintf(scriptfile,'CONNECTEDCUT=%d;\n',CONNECTEDCUT);

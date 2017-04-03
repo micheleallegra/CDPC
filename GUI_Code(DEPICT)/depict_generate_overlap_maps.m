@@ -2,15 +2,13 @@ function depict_generate_overlap_maps(outfname_overlap,The_files_to_cluster,The_
 
 global winlen
 
-    brain = spm_read_vols(The_mask);
-    brain=permute(brain,[2 1 3]);
-
    if(~isempty(The_mask))
      brain = spm_read_vols(The_mask);
      brain=permute(brain,[2 1 3]);
    else
      brain = spm_read_vols(The_files_to_cluster(1));
-     brain = permute(image1,[2 1 3]);
+     brain(brain <=100)=0;	
+     brain = permute(brain,[2 1 3]);
    end
 
    dim = The_files_to_cluster(1).dim;
