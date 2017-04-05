@@ -26,19 +26,23 @@ function depict_generate_output_timecourse_images(outfname,The_files_to_cluster,
           hold on
 	  max_density=max(density(find(final_assignation==cl)));
           vv=find(final_assignation == cl & density/max_density > 0.5);
+          length(vv)
+          vol
+          winlen
+          vol+winlen-1
 	  if(length(vv) > 0)
-	        plot(1:winlen,data_intensity(vol:vol+winlen-1,vv),'Linewidth',1,'Color',[0.8, 0.8, 0.8]); 		
+	        plot(1:winlen,data_intensity(:,vv),'Linewidth',1,'Color',[0.8, 0.8, 0.8]); 		
 	  end
           vv=find(final_assignation == cl & density/max_density > 0.75);
           if(length(vv) > 0)
-          	plot(1:winlen,data_intensity(vol:vol+winlen-1,vv),'Linewidth',1,'Color','green');
+          	plot(1:winlen,data_intensity(:,vv),'Linewidth',1,'Color','green');
 	  end	
           vv=find(final_assignation == cl & density/max_density > 0.9);
           if(length(vv) > 0)
-                plot(1:winlen,data_intensity(vol:vol+winlen-1,vv),'Linewidth',1,'Color','blue');
+                plot(1:winlen,data_intensity(:,vv),'Linewidth',1,'Color','blue');
 	  end
           vv=find(final_assignation == cl & density/max_density == 1);
-          plot(1:winlen,data_intensity(vol:vol+winlen-1,vv),'Linewidth',2,'Color','red');	 		
+          plot(1:winlen,data_intensity(:,vv),'Linewidth',2,'Color','red');	 		
           figname=[outfname, '_timecourses_',num2str(vol),'_',num2str(vol+winlen-1),'_cl',num2str(cl),'.eps'];
           print(fsignal,figname,'-depsc');
           hold off
