@@ -26,10 +26,6 @@ function depict_generate_output_timecourse_images(outfname,The_files_to_cluster,
           hold on
 	  max_density=max(density(find(final_assignation==cl)));
           vv=find(final_assignation == cl & density/max_density > 0.5);
-          length(vv)
-          vol
-          winlen
-          vol+winlen-1
 	  if(length(vv) > 0)
 	        plot(1:winlen,data_intensity(:,vv),'Linewidth',1,'Color',[0.8, 0.8, 0.8]); 		
 	  end
