@@ -35,8 +35,8 @@ function [data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_f
 
  count=0;
 
- for i=1:dim(1)
-   for j=1:dim(2)
+ for i=1:dim(2)
+   for j=1:dim(1)
      for k=1:dim(3)
        if(brain(i,j,k)>0)
          count=count+1;
@@ -51,5 +51,4 @@ function [data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_f
      end
    end
  end
-
 end

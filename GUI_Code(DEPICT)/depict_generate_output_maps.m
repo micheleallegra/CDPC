@@ -18,12 +18,12 @@ global winlen
 
    dim = The_files_to_cluster(1).dim;
 
-   out_data=zeros(dim(1),dim(2),dim(3),true_NCLUST);
+   out_data=zeros(dim(2),dim(1),dim(3),true_NCLUST);
 
    count=0;
 
-    for i=1:dim(1)
-      for j=1:dim(2)
+    for i=1:dim(2)
+      for j=1:dim(1)
         for k=1:dim(3)
           if(brain(i,j,k)>0 )
           count=count+1;
