@@ -2,6 +2,8 @@ function depict_generate_output_nifti(outfname,The_files_to_cluster,The_mask,fin
 
 global winlen
 
+    disp('Generating output maps');
+
     true_NCLUST=max(final_assignation);
     dmax=max(density);
 
@@ -33,12 +35,16 @@ global winlen
         end
       end
     end
+  
+   out_data = permute(out_data,[2 1 3 4]);
+
 
    for cl=1:true_NCLUST
        if(length(find(final_assignation==cl)) > 50)	    
 	    output(cl)=The_files_to_cluster(1);
        	    outfname1=[outfname '_' num2str(vol) '_' num2str(vol+winlen-1) '_' num2str(cl) '.nii'];
             output(cl).fname = outfname1;
+            output(cl).dt= [16 0];
             Image = spm_create_vol(output(cl));
             Image=spm_write_vol(output(cl), out_data(:,:,:,cl));
 	end
@@ -50,7 +56,7 @@ global winlen
 
     matlabbatch{1}.spm.util.cat.vols = temp;
     matlabbatch{1}.spm.util.cat.name = [outfname '_map_' num2str(vol) '_' num2str(vol+winlen-1) '.nii'];
-    matlabbatch{1}.spm.util.cat.dtype = 0;
+    matlabbatch{1}.spm.util.cat.dtype = 16;;
     spm_jobman('initcfg');
     spm_jobman('run',matlabbatch);
 

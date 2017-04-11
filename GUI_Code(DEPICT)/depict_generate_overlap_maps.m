@@ -2,6 +2,8 @@ function depict_generate_overlap_maps(outfname_overlap,The_files_to_cluster,The_
 
 global winlen
 
+   disp('Generating overlap maps');
+
    if(~isempty(The_mask))
      brain = spm_read_vols(The_mask);
      brain=permute(brain,[2 1 3]);
@@ -29,14 +31,15 @@ global winlen
       end
     end
 
+   out_data=permute(out_data,[2 1 3 4]);
 
    for i=1:2
 	    output(i)=The_files_to_cluster(1);
        	    outfname1=[outfname_overlap  num2str(i) 'tmp.nii'];
             output(i).fname = outfname1;
+            output(i).dt= [16 0];
             Image = spm_create_vol(output(i));
             Image=spm_write_vol(output(i), out_data(:,:,:,i));
-	
     end
     clear matlabbatch;
 
@@ -47,7 +50,7 @@ global winlen
 
     matlabbatch{1}.spm.util.cat.vols = temp;
     matlabbatch{1}.spm.util.cat.name = [outfname_overlap 'map.nii'];
-    matlabbatch{1}.spm.util.cat.dtype = 0;
+    matlabbatch{1}.spm.util.cat.dtype = 16;
     spm_jobman('initcfg');
     spm_jobman('run',matlabbatch);
 

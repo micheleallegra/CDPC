@@ -1,5 +1,8 @@
 function [data_intensity]=depict_generate_intensity_input_data(The_files_to_cluster,brind,vol)
 
+disp('Generating intensity input data');
+
+
 global winlen
   
     data_intensity = [];

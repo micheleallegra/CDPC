@@ -1,5 +1,6 @@
 function [data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_files_to_cluster)
 
+ disp('Generating coordinate input data');
  if(~isempty(The_mask))
    brain = spm_read_vols(The_mask);
    brain=permute(brain,[2 1 3]);

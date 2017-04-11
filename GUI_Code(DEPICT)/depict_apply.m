@@ -77,6 +77,8 @@ global NCLUST_MAX
 
    overlap=zeros(2,size(data_coord,2));
 
+   count = 0
+
    for vol=vol_begin:(vol_end-winlen+1)
 
       set(txt1,'String',strcat('Computing clusters for window : ',' ', num2str(vol)',' - ',num2str(vol+winlen-1)) );
@@ -130,10 +132,12 @@ global NCLUST_MAX
 
       depict_generate_output_timecourse_images(outfname,The_files_to_cluster,The_mask,data_intensity,final_assignation,density,vol,winlen)
 
+     count=count+1
+
    end
 
-   overlap(1,:)=overlap(1,:)/(vol_end-vol_begin+1);
-   overlap(2,:)=overlap(2,:)/(vol_end-vol_begin+1);
+   overlap(1,:)=overlap(1,:)/count;
+   overlap(2,:)=overlap(2,:)/count;
 
    outfname_overlap = [outfname '_overlap_'];
 

@@ -2,6 +2,8 @@ function depict_generate_output_timecourse_images(outfname,The_files_to_cluster,
 
 %global winlen
 
+    disp('Generating output timecourse images');
+
     true_NCLUST=max(final_assignation);
     dmax=max(density);
 

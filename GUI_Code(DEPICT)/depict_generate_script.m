@@ -67,15 +67,19 @@ end % endif
 
    scriptfile = fopen(scriptname,'w');
 
+   if(vol_end==1) vol_end = size(The_files_to_cluster,1); end
+
    dt=datestr(datetime);
    fprintf(scriptfile,'%%Depict script generated on %s\n',dt);
    fprintf(scriptfile,'%%***************************************************************************\n');
    fprintf(scriptfile,'\n'); 
    fprintf(scriptfile,'%%update MATLAB path\n'); 
-   spmdir=pwd;
+   this_script_Name = mfilename('fullpath');
+   [currentpath, script_name, fileextension]= fileparts(this_script_Name);
+   depict_dir=currentpath;
+   fprintf(scriptfile,'addpath(''%s'');\n',depict_dir); 
+   spmdir=depict_dir(1:end-15);
    fprintf(scriptfile,'addpath(''%s'');\n',spmdir); 
-   %spmdir=spmdir(1:end-15);
-   %fprintf(scriptfile,'addpath(''%s'');\n',spmdir); 
    fprintf(scriptfile,'\n'); 
    fprintf(scriptfile,'%%global variables\n'); 
    fprintf(scriptfile,'global The_files_to_cluster\n');
@@ -124,6 +128,7 @@ end % endif
    fprintf(scriptfile,'[data_coord,brind,scal]=depict_generate_coord_input_data(The_mask,The_files_to_cluster);\n');
    fprintf(scriptfile,'overlap=zeros(2,size(data_coord,2));\n');
    fprintf(scriptfile,'\n');
+   fprintf(scriptfile,'count=0;\n\n');
    fprintf(scriptfile, 'for vol=vol_begin:(vol_end-winlen+1)\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_generate_intensity_input_data(The_files_to_cluster,brind,vol);\n');
    fprintf(scriptfile,'\t[data_intensity]=depict_FT_intensity(data_intensity,[0]);\n');
@@ -135,10 +140,11 @@ end % endif
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'\tdepict_generate_output_maps(outfname,The_files_to_cluster,The_mask,final_assignation,density,vol);\n');
    fprintf(scriptfile,'\tdepict_generate_output_timecourse_images(outfname,The_files_to_cluster,The_mask,data_intensity,final_assignation,density,vol,winlen);\n');
+   fprintf(scriptfile,'count=count+1;\n\n'); 
    fprintf(scriptfile,'end\n');
    fprintf(scriptfile,'\n');
-   fprintf(scriptfile,'overlap(1,:)=overlap(1,:)/(vol_end-vol_begin+1);');
-   fprintf(scriptfile,'overlap(2,:)=overlap(2,:)/(vol_end-vol_begin+1);');
+   fprintf(scriptfile,'overlap(1,:)=overlap(1,:)/count;\n');
+   fprintf(scriptfile,'overlap(2,:)=overlap(2,:)/count;\n');
    fprintf(scriptfile,'\n');
    fprintf(scriptfile,'outfname_overlap =  [outfname ''_overlap_''];');
    fprintf(scriptfile,'\n');
