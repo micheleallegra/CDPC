@@ -127,6 +127,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
 
  // accounts for the fact that the voxels are longer in the x and y directions, i.e., the size is 2l x 2l x l in the computation of spatially close neighbors 
+
+ double sbk1,sbk2;
+ sbk1=scal[0];
+ sbk2=scal[1];
  scal[0]=scal[0]*2;
  scal[1]=scal[1]*2;
 
@@ -161,6 +165,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
  } // end omp parallel
 
+ scal[0]=sbk1;
+ scal[1]=sbk2;
 
  // it excludes points with a low number of coherent spatial neighbors 
 
